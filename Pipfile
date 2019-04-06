@@ -1,0 +1,35 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[requires]
+python_version = "3"
+
+[packages]
+nucypher = "==0.1.0a18"
+umbral = "==0.1.3a0"
+constant-sorrow = ">=0.1.0a8"
+bytestring-splitter = ">=1.0.0a4"
+hendrix = ">=3.2.2"
+pyopenssl = "*"
+cryptography = ">=2.3"
+pysha3="*"
+requests = "*"
+sqlalchemy = "*"
+maya = "*"
+flask = "*"
+eth-tester = "*"
+coincurve = "*"
+web3 = "*"
+sentry-sdk = "==0.5.2"
+appdirs = "*"
+click = ">=7.0"
+colorama = "*"
+boto3 = "*"
+
+base58 = "*"
+flask_cors = "*"
+
+[pipenv]
+allow_prereleases = true
