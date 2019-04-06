@@ -4,7 +4,14 @@
 
 ## Welcome to Hako
 
-Hako (or "box" in Japanese) is a distributed 
+Hako (or "box" in Japanese) is a super secure decentralized file sharing application powered by Web 3.0
+
+Unlike other file sharing services such as Dropbox and Google Drive, Hako does not place your keys in the hands of a large companies. The user is always in control of your keys and your data.
+
+Hako leverages Web 3.0 peer to peer protocols so users can directly share data, as well as access to a distributed network layer or a trusted federated re encryption network.
+Hako has no single point of failure and allow non-trusted 3rd parties to delegate access to data - while never being able to decipher the original message.
+
+
 
 
 ### Concepts 
