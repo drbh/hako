@@ -7,7 +7,7 @@
                 <small>{{ contents.cid }}</small>
             </div>
             <br>
-            <div v-if="ext == 'png'">
+            <div v-if="ext == 'png' || ext == 'jpeg' ">
                 <!--   <img v-if="contents['contents'] != undefined":src="'data:image/jpeg;base64, ' + contents['contents']" class="my-file-pane">
  -->
                 <img :src="'data:image/jpeg;base64, ' + contents['contents']" class="my-file-pane">

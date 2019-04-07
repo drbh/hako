@@ -19,10 +19,13 @@ export default {
 
             var nucid = e.target.querySelector('input').value
             // cid = e.target
+
+
+            console.log("Making call to", this.$parent.currenthost)
             var settings = {
                 "async": true,
                 "crossDomain": true,
-                "url": "http://127.0.0.1:5000/decrypt_message",
+                "url": "http://"+this.$parent.currenthost+":5000/decrypt_message",
                 "method": "POST",
                 "headers": {
                     "content-type": "application/json"
@@ -36,6 +39,8 @@ export default {
 
             var info = nucid.split("//")[1].split("_");
             console.log(info)
+
+
             $.ajax(settings).done(function(response) {
                 console.log(response);
                 this.$parent.$parent.files.push({

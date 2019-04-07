@@ -14,11 +14,12 @@ CORS(app, supports_credentials=True)
 # start connections
 n = ncipfs.ncipfs()
 n.connect(
-	# "localhost:11501",
+	"localhost:11501",
 	# "18.212.122.50:11500",
-	"52.14.207.225:9151", ## NUCPYHERS TEST NETWORK
+	# "52.14.207.225:9151", ## NUCPYHERS TEST NETWORK
 	# "localhost:5001"
-	"192.168.0.6:5001"
+	"192.168.1.3:5001"
+	# "10.146.3.31:5001"
 	# "https://ipfs.infura.io:5001" ## INFURAS IPFS GATEWAY (limitations)
 )
 
@@ -95,6 +96,7 @@ def decrypt_message():
 
 @app.route('/my_public_keys', methods=["POST"])
 def my_public_keys():
+	print(request.json)
 	message = ncipfs.get_users_public_keys(request.json["username"], True)
 	print(message)
 	return jsonify({"keys": message})

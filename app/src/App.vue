@@ -39,7 +39,9 @@
         </div>
         <div class="top-bar">
             <img src="/hako_logo_white.png" style="height: 30px; padding: 5px;">
-            <p @click="copyMyKeys">MY KEYZ</p>
+            <!-- <p @click="copyMyKeys">MY KEYZ</p> -->
+            <a class="clickables" @click="copyMyKeys" id="keyCopy">🔑 </a>
+            <!-- <p @click="copyMyKeys">MY KEYZ</p> -->
             <!-- <h4  contenteditable="true" class="username" v-model="username">{{ username }}</h4> -->
             <!-- <input type="text" class="pword-input" name="" v-model="username"> -->
             <!-- <input type="text" class="pword-input" name="" v-model="password"> -->
@@ -55,12 +57,17 @@
             <div class="contain">
                 <div class="left-pane">
                     <h4>My Friends</h4><br>
-                    <a class="clickables" @click="addContact">➕</a>
+                    <!-- <a class="clickables" @click="addContact">➕</a> -->
+                    <!-- <input type="text" name="" v-model="contactKeys" placeholder="Add Contact Key Here"> -->
                     <!-- <button @click="addContact">➕</button> -->
                     <Contacts :people="mycontacts" />
                 </div>
                 <!-- <button @click="addContact">Add</button> -->
                 <div class="center-console">
+                    <div style="display:none;" id="centerContactAdd">
+                        <input id="contactKeyCenter" placeholder="Add Contact Key Here" type="text" name="" v-model="contactKeys">
+                        <a class="clickables" @click="addContact">➕</a>
+                    </div>
                     <vue-dropzone ref="myVueDropzone" id="dropzone" v-on:vdropzone-sending="sendingEvent" v-on:vdropzone-success="uploadComplete" v-on:vdropzone-error="uploadError" :options="dropzoneOptions" style="display:none;"></vue-dropzone>
                     <Files :files="myfiles" />
                 </div>
@@ -94,21 +101,25 @@ import FilePermissionsViewer from './components/FilePermissionsViewer.vue'
 
 
 var refreshIntervalId = setInterval(function() {}, 100000000000000000000)
-var host = "192.168.0.4"
+var host = "192.168.1.3"
+// var host = "10.146.3.31"
+// var host = "127.0.0.1"
 
 export default {
     name: 'app',
     data: function() {
         return {
             // myname: ,
+            currenthost: host,
             mycontacts: [],
             currentFile: "",
             userconfig: [],
             myfiles: [],
-            username: "drbh",
-            // username: "",
-            password: "thisismysupersecurepassword",
-            // password: "",
+            // username: "drbh",
+            contactKeys: "",
+            username: "",
+            // password: "thisismysupersecurepassword",
+            password: "",
             dropzoneOptions: {
                 url: 'http://' + host + ':5000/data',
                 thumbnailWidth: 150,
@@ -182,10 +193,63 @@ export default {
                     "username": this.username
                 })
             }
+            console.log("Coping My Keys")
 
             $.ajax(settings).done(function(response) {
-                console.log(response);
-            });
+
+                var kz = response.keys.join("_")
+                var final = this.username + "_" + kz
+
+                console.log("copying my keys to clip")
+
+                // value = e.target.textContent
+                var value = final
+
+                let textarea;
+                let result;
+
+                try {
+                    textarea = document.createElement('textarea');
+                    textarea.setAttribute('readonly', true);
+                    textarea.setAttribute('contenteditable', true);
+                    textarea.style.position = 'fixed'; // prevent scroll from jumping to the bottom when focus is set.
+                    textarea.value = value //string;
+
+                    document.body.appendChild(textarea);
+
+                    textarea.focus();
+                    textarea.select();
+
+                    const range = document.createRange();
+                    range.selectNodeContents(textarea);
+
+                    const sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+
+                    textarea.setSelectionRange(0, textarea.value.length);
+                    result = document.execCommand('copy');
+                } catch (err) {
+                    console.error(err);
+                    result = null;
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+
+                // manual copy fallback using prompt
+                if (!result) {
+                    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+                    const copyHotkey = isMac ? '⌘C' : 'CTRL+C or right click and copy';
+                    result = prompt(`Press ${copyHotkey}`, value); // eslint-disable-line no-alert
+                    if (!result) {
+                        // return false;
+                    }
+                }
+                // return true;
+
+                // console.log(final);
+
+            }.bind(this));
         },
         openCreatePane() {
             document.getElementById("signin").style.display = "none"
@@ -211,7 +275,7 @@ export default {
                 },
                 "processData": false,
                 "data": JSON.stringify({
-                    "name": this.username,
+                    "name": this.username.toLowerCase(),
                     "password": this.password
                 })
             }
@@ -240,6 +304,8 @@ export default {
             //     "sig": sig,
             // })
 
+            // START A SPINNER?
+
             var data = JSON.stringify({
                 "username": user,
                 "password": pass,
@@ -264,6 +330,12 @@ export default {
             }
 
             $.ajax(settings).done(function(response) {
+
+
+                // SHOULD CLOSE PERMISSION VIEW
+                document.getElementById("main-file-permissions-viewer").style.display = "none"
+                
+
                 console.log(response);
 
                 var files = this.$parent.files
@@ -370,13 +442,17 @@ export default {
             this.userconfig = this.$parent.user //[this.$parent.user.roles.alice.pub.root]
         },
         addContact: function() {
-            this.$parent.contacts.push({
-                "name": "richard",
+            var dat = this.contactKeys.split("_")
+            var new_contact = {
+                "name": dat[0],
                 "pub": {
-                    "root": "",
-                    "signing": ""
+                    "root": dat[1],
+                    "signing": dat[2]
                 }
-            })
+            }
+            console.log(new_contact)
+
+            this.$parent.contacts.push(new_contact)
         },
         // openConfig: function() {
         //     // need better way to call Config method
@@ -446,7 +522,7 @@ input[type="color"] {
     }
 
     .action-btn {
-        margin-left: -10px !important;
+        margin-left: -20% !important;
     }
 
 
@@ -466,6 +542,11 @@ input[type="color"] {
 
 @media only screen and (min-width: 1000px) {
 
+
+    .permission-config-contents {
+        margin-top: 20% !important;
+    }
+
     #add-file-top {
         display: none;
     }
@@ -481,6 +562,17 @@ input[type="color"] {
     }
 
 
+}
+
+#keyCopy {
+    padding: 0.5%;
+    display: flex;
+}
+
+#contactKeyCenter {
+    background-color: rgb(233, 239, 252);
+    width: 70%;
+    padding: 4px 10px 4px 10px;
 }
 
 #login-pane input {
@@ -541,6 +633,7 @@ input[type="color"] {
 
 #spinner {
     top: 40%;
+    left: 47%;
     position: absolute;
 }
 

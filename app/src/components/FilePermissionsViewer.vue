@@ -12,7 +12,7 @@
             </div>
             <br>
             <a @click="showAdd">add new contact</a><br>
-            <input type="text" name="" id="userKeysInput">
+            <!-- <input type="text" name="" id="userKeysInput"> -->
             <!-- <span>Selected: {{ selected }}</span> -->
         </div>
         <div class="file-permissions-backdrop-dark" @click="toggleFilePermissionsViewer">
@@ -43,7 +43,8 @@ export default {
         },
         showAdd(){
             console.log("ALLOW FUTARI KEY ADD")
-            document.getElementById("userKeysInput").style.display = "block"
+            this.toggleFilePermissionsViewer()
+            document.getElementById("centerContactAdd").style.display = "block"
         },
         grantUserAccess: function() {
 
@@ -143,10 +144,10 @@ select#soflow-color {
     -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     height: 100%;
-    max-width: 50%;
+    max-width: 80%;
     margin: 0 auto 0;
-    margin-top: 30%;
-    max-height: 380px;
+    margin-top: 50%;
+    max-height: 240px;
     overflow-y: scroll;
     position: relative;
     -webkit-transition: all .2s ease-out;
