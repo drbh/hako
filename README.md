@@ -61,6 +61,11 @@ pipenv shell
 python app.py 
 ```
 
+**Note** 
+
+you may have to edit the local IP address in `app/src/App.vue` and in `app.py` to your computers local IP (if running in offline mode) otherwise change the IPs accordingly to the networks you want to connect to.
+
+
 you should see
 
 ```bash
