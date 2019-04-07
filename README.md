@@ -23,8 +23,6 @@ https://www.youtube.com/watch?v=_0Jl836ETLo
 
 https://github.com/drbh/ncipfs 
 
-https://www.youtube.com/watch?v=_0Jl836ETLo
-
 ## Concepts 
 
 #### NUCID
