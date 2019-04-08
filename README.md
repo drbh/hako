@@ -31,12 +31,19 @@ We introduce a new concept of a `NUCID` all a NUCID is, is a combination of a Nu
 
 This all lets you create NUCID's or download data via NUCID's. You can alwayws request a NUCID you don't have access too - you just won't be able to decrypt it. If the policy allows you access, your Bob keys will allow yout to decrypt.
 
-![](https://cdn-images-1.medium.com/max/1600/1*s-92vOhsK_msW_UBTC_j5Q.png)\\
+![](https://cdn-images-1.medium.com/max/1600/1*s-92vOhsK_msW_UBTC_j5Q.png)
 
 #### Futari 
 
 We introduce a new concept of a `Futari` (or "two people" in Japanese) 
 
+### Viewing files
+
+Once your all setup and either you've uploaded a file, or someone has shared a NUCID with you, simply click on the 📖 to view the decrypted file contents.
+
+![](https://cdn-images-1.medium.com/max/1600/1*1r9pWF0_S8PqBI1GaZYZIg.png)
+
+try to view this image (without permission) from IPFS here 
 
 ### Install
 
